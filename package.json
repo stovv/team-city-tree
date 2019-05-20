@@ -138,7 +138,6 @@
 		"@types/mocha": "^2.2.42"
 	},
 	"dependencies": {
-		"keytar": "^4.6.0",
 		"teamcity-rest-api": "0.0.8"
 	}
 }
