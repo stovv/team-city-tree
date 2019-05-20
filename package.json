@@ -63,7 +63,7 @@
 			{
 				"command": "tc_build.back",
 				"title": "TeamCity: Back to Project Tree",
-				"icon":{
+				"icon": {
 					"light": "resources/light/back.svg",
 					"dark": "resources/dark/back.svg"
 				}
@@ -138,6 +138,8 @@
 		"@types/mocha": "^2.2.42"
 	},
 	"dependencies": {
-		"teamcity-rest-api": "0.0.8"
+		"@types/workerpool": "^2.3.1",
+		"teamcity-rest-api": "0.0.8",
+		"workerpool": "^3.1.2"
 	}
 }
