@@ -39,14 +39,12 @@ async function showInputBox_(def_val: string, basicPrompt: string, placeHolder: 
 }
 
 export async function get_config(): Promise<Credentials> {
-
-    // TODO: Save password after one provide it, and remove after log_out or deactivate
     var config: vscode.WorkspaceConfiguration = vscode.workspace.getConfiguration('tc_tree');
     var user: string | undefined = config.get("username");
     var password: string | undefined = config.get("password");
     var url: string | undefined = config.get("url");
 
-    console.log(user, password, url);
+    //console.log(user, password, url);
 
     if (typeof password === "undefined") {
         password = await showInputBox_("", "Provide the password", "123456", true).then((passwd: string) => {

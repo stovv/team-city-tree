@@ -30,16 +30,60 @@
 					"id": "tc_tree",
 					"name": "Project Tree",
 					"when": "build == false"
+				},
+				{
+					"id": "tc_build",
+					"name": "Build Tree",
+					"when": "build == true"
 				}
 			],
 			"explorer": []
 		},
 		"commands": [
 			{
-				"command": "tc_tree.connect",
-				"title": "TC Tree: Connect"
+				"command": "tc_tree.refresh",
+				"title": "TeamCity: Refresh",
+				"icon": {
+					"light": "resources/light/sync.svg",
+					"dark": "resources/dark/sync.svg"
+				}
+			},
+			{
+				"command": "tc_build.refresh",
+				"title": "TeamCity: Refresh Build"
+			},
+			{
+				"command": "tc_tree.update_login",
+				"title": "TeamCity: Update Login configuration"
+			},
+			{
+				"command": "tc_build.open_build",
+				"title": "TeamCity: Open Build"
+			},
+			{
+				"command": "tc_build.back",
+				"title": "TeamCity: Back to Project Tree",
+				"icon":{
+					"light": "resources/light/back.svg",
+					"dark": "resources/dark/back.svg"
+				}
 			}
 		],
+		"menus": {
+			"commandPalette": [],
+			"view/title": [
+				{
+					"command": "tc_tree.refresh",
+					"when": "view == tc_tree",
+					"group": "navigation"
+				},
+				{
+					"command": "tc_build.back",
+					"when": "view == tc_build",
+					"group": "navigation"
+				}
+			]
+		},
 		"configuration": {
 			"type": "",
 			"title": "Team City Tree extension configuration",
@@ -62,6 +106,17 @@
 							"type": "string",
 							"default": "http://teamcity.com:1234",
 							"description": "TeamCity link"
+						},
+						"visible": {
+							"type": "array",
+							"description": "Configure visible projects",
+							"items": {
+								"title": "inner objects",
+								"default": [
+									"buildTypeIdOne",
+									"buildTypeIdTwo"
+								]
+							}
 						}
 					}
 				}

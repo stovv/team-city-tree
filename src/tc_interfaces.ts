@@ -13,6 +13,25 @@ export interface BuildTypeItem {
     href: string;
     webUrl: string;
 }
+
+export interface BuildItems {
+    count: number;
+    href: string;
+    nextHref: string;
+    build: BuildItem[];
+}
+export interface BuildItem {
+    id: number;
+    buildTypeId: string;
+    number: string;
+    status: string;
+    state: string;
+    branchName: string;
+    defaultBranch: boolean;
+    href: string;
+    webUrl: string;
+}
+
 export interface Templates {
     count: number;
     buildType: any[];

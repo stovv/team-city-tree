@@ -6,7 +6,7 @@ export class TCItem extends vscode.TreeItem {
     constructor(
         public readonly label: string,
         public collapsibleState: vscode.TreeItemCollapsibleState,
-        public status: number,
+        public status: number | string,
         public readonly item_type: number,
         public readonly tc_id: string,
         public readonly descr: string,
@@ -26,36 +26,55 @@ export class TCItem extends vscode.TreeItem {
 
     private get_icons(type: string) {
 
-        var stat = "";
-        var icon_type = "";
-        switch (this.status) {
-            case TCStatus.Fail: {
-                stat = "red_";
-                type = "";
-                break;
-            }
-            case TCStatus.Success: {
-                stat = "green_";
-                type = "";
-                break;
-            }
-            case TCStatus.None: {
-                stat = "";
-                break;
-            }
+        if (this.status === TCStatus.none) {
+            if (this.item_type === TCType.BuildConfiguration) { return path.join(__filename, '..', '..', 'resources', type, `build_configuration.svg`); }
+            if (this.item_type === TCType.Project) { return path.join(__filename, '..', '..', 'resources', type, `project.svg`); }
         }
-        switch (this.item_type) {
-            case TCType.BuildConfiguration: {
-                icon_type = "build_configuration";
-                break;
-            }
-            case TCType.Project: {
-                icon_type = "project";
-                break;
-            }
-        }
-        return path.join(__filename, '..', '..', 'resources', type, `${stat}${icon_type}.svg`);
 
+        var folder: string = "";
+        var icon_name: string = "";
+        switch(this.status){
+            case TCStatus.success + TCStatus.finished: {
+                //1 success finished
+                folder = 'green';
+                icon_name = 'stop';
+                break;
+            }
+            case TCStatus.fail + TCStatus.finished: {
+                //2 fail finished
+                folder = 'red';
+                icon_name = 'stop';
+                break;
+            }
+            case TCStatus.none + TCStatus.running:
+            case TCStatus.success + TCStatus.running:
+            case TCStatus.none + TCStatus.queued:
+            case TCStatus.success + TCStatus.queued: {
+                //3 success running
+                //5 queued
+                folder = 'green';
+                icon_name = 'running';
+                break;
+            }
+            case TCStatus.fail + TCStatus.running:
+            case TCStatus.error + TCStatus.running:{
+                //4 fail running
+                //4 error running
+                folder = 'red';
+                icon_name = 'running';
+                break;
+
+            }
+            case TCStatus.canceled + TCStatus.finished:{
+                //cancel finished
+                folder = type;
+                icon_name = 'cancel';
+                break;
+        
+            }
+        }
+        //console.log(folder, " ", icon_name);
+        return path.join(__filename, '..', '..', 'resources', folder, `${icon_name}.svg`);
     }
 
     iconPath = {
@@ -75,7 +94,12 @@ export class TCType {
 }
 
 export class TCStatus {
-    static readonly Success: number = 0;
-    static readonly Fail: number = 1;
-    static readonly None: number = -1;
+    static readonly success: number = 101;    //SUCCESS
+    static readonly fail: number = 102;       //FAILURE
+    static readonly error: number = 103;      //ERROR
+    static readonly canceled: number = 104;   //UKNOWN
+    static readonly none: number = 0;
+    static readonly queued: number = 201;     //queued
+    static readonly running: number = 202;    //running
+    static readonly finished: number = 205;   //finished
 }
