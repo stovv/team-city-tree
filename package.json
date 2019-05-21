@@ -3,6 +3,7 @@
 	"displayName": "team_city_tree",
 	"description": "View a tree for Team City, run and stop builds",
 	"version": "0.0.1",
+	"publisher": "Stovv",
 	"engines": {
 		"vscode": "^1.33.0"
 	},
